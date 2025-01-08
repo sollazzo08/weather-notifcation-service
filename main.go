@@ -15,9 +15,6 @@ import (
 // 	fmt.Fprintf(w, "Hello, World!") // Write a simple response to the client
 // }
 
-
-var latitude = "41.32"
-var longitude = "-74.18"
 var units = "imperial"
 var exclude = "minutely"
 
