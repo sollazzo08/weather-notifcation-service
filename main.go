@@ -69,15 +69,16 @@ func main() {
 
     //fmt.Println(string(responseData))
 
+    // Creates an empty instance of the WeatherResponse struct
     var weatherResponseObj WeatherResponse
 
+    // By passing the memory address of the weatheRepsonse obj we can update the weatherResponseObj, fill it with the JSON data
     json.Unmarshal([]byte(responseData), &weatherResponseObj)
 
     fmt.Println(weatherResponseObj.Current.Temp)
     fmt.Println(weatherResponseObj.Current.Time)
     fmt.Println(weatherResponseObj.Current.WindSpeed)
 
-    // TODO unmarshall data into structs
 
 	// Start the HTTP server on port 8080.
 	// http.ListenAndServe binds the server to the specified port and uses the mux
