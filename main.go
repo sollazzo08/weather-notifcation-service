@@ -15,6 +15,8 @@ import (
 // 	fmt.Fprintf(w, "Hello, World!") // Write a simple response to the client
 // }
 
+
+
 var units = "imperial"
 var exclude = "minutely"
 
@@ -28,8 +30,8 @@ func main() {
     }
 
     apiKey := os.Getenv("API_KEY")
-    latitude = os.Getenv("LAT")
-    longitude = os.Getenv("LON")
+    latitude := os.Getenv("LAT")
+    longitude := os.Getenv("LON")
 
 	// Create a new ServeMux (multiplexer) using the short variable declaration (:=).
 	// ServeMux is a request router that maps URL paths to handler functions.
