@@ -1,10 +1,12 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 	"os"
+
 	"github.com/joho/godotenv"
 )
 
@@ -15,7 +17,13 @@ import (
 // 	fmt.Fprintf(w, "Hello, World!") // Write a simple response to the client
 // }
 
-
+type WeatherResponse struct {
+    Current struct {
+        Time       int64   `json:"dt"`
+        Temp       float64  `json:"temp"`
+        WindSpeed  float64  `json:"wind_speed"`
+    } `json:"current"`
+}
 
 var units = "imperial"
 var exclude = "minutely"
@@ -46,6 +54,7 @@ func main() {
     response, err := http.Get("https://api.openweathermap.org/data/3.0/onecall?lat=" + latitude + "&lon=" + longitude + "&units=" + units + "&exclude=" + exclude + "&appid=" + apiKey);
 
 
+
     if err != nil {
         fmt.Println(err.Error())
         os.Exit(1)
@@ -58,7 +67,15 @@ func main() {
         return
     }
 
-    fmt.Println(string(responseData))
+    //fmt.Println(string(responseData))
+
+    var weatherResponseObj WeatherResponse
+
+    json.Unmarshal([]byte(responseData), &weatherResponseObj)
+
+    fmt.Println(weatherResponseObj.Current.Temp)
+    fmt.Println(weatherResponseObj.Current.Time)
+    fmt.Println(weatherResponseObj.Current.WindSpeed)
 
     // TODO unmarshall data into structs
 
