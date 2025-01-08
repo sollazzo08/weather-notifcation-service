@@ -1,0 +1,26 @@
+# Binaries
+weather-notification-service
+
+
+# Output of `go build` and `go test`
+*.out
+
+# Environment files
+.env
+
+# IDE/editor-specific files
+.vscode/
+.idea/
+*.iml
+
+# Logs and temporary files
+*.log
+*.tmp
+*.swp
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+
+# Coverage files
+coverage.out
