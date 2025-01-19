@@ -4,9 +4,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/mike/weather-notification-service/internal/config"
+	"github.com/mike/weather-notification-service/internal/handlers"
 	"io"
 	"net/http"
 	"os"
+	"log"
 )
 
 // handleHelloWorld is a handler function that responds to requests with "Hello, World!".
@@ -29,6 +31,19 @@ var exclude = "minutely"
 
 func main() {
 	fmt.Println("Starting Project...")
+
+	mux := http.NewServeMux()
+
+	mux.HandleFunc("/api/v1/weather", handlers.WeatherHandler)
+
+	// Start the server
+	fmt.Println("Server is running on http://localhost:8080")
+	if err := http.ListenAndServe(":8080", mux); err != nil {
+		log.Fatalf("Failed to start server: %v", err)
+	}
+
+
+
 
 	config, err := config.LoadConfig()
 	if err != nil {
