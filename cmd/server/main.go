@@ -9,23 +9,16 @@ import (
 	"net/http"
 )
 
-// handleHelloWorld is a handler function that responds to requests with "Hello, World!".
-// w - http.ResponseWriter: Used to send a response back to the client.
-// r - *http.Request: Represents the incoming HTTP request.
-// func handleHelloWorld(w http.ResponseWriter, r *http.Request) {
-// 	fmt.Fprintf(w, "Hello, World!") // Write a simple response to the client
-// }
-
 func main() {
 	fmt.Println("Starting Weather Notification Service...")
-
+	// Create a new instance of http.ServeMux using the NewServeMux constructor function
+	mux := http.NewServeMux()
+	// Load our config file on start up
 	cfg, err := config.LoadConfig()
 	if err != nil {
 		fmt.Println("Error loading .env file")
 		return
 	}
-
-	mux := http.NewServeMux()
 
 	weatherService := weather.NewWeatherService(cfg.APIKey, cfg.Longitude, cfg.Latitude)
 

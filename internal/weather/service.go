@@ -13,6 +13,17 @@ type WeatherService struct {
 	Longitude string
 }
 
+// NewWeatherService creates and initializes a new WeatherService instance.
+// This constructor function takes the API key, latitude, and longitude as inputs
+// and returns a pointer to the initialized WeatherService struct.
+//
+// Parameters:
+// - apiKey: The API key for authenticating with the weather API.
+// - latitude: The latitude of the location to fetch weather data for.
+// - longitude: The longitude of the location to fetch weather data for.
+//
+// Returns:
+// - *WeatherService: A pointer to the initialized WeatherService instance.
 func NewWeatherService(apiKey, latitude, longitude string) *WeatherService {
 	return &WeatherService{
 		APIKey:    apiKey,
@@ -20,7 +31,8 @@ func NewWeatherService(apiKey, latitude, longitude string) *WeatherService {
 		Longitude: longitude,
 	}
 }
-func (s *WeatherService) GetWeather() (*WeatherResponse, error) {
+
+func (s *WeatherService) GetWeather(lat, lon string) (*WeatherResponse, error) {
 	url := fmt.Sprintf(
 		"https://api.openweathermap.org/data/3.0/onecall?lat=%s&lon=%s&units=imperial&exclude=minutely&appid=%s",
 		s.Latitude, s.Longitude, s.APIKey,

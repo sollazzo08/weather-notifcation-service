@@ -1,2 +1,0 @@
-- Create a weather handler fucntion
-- re-write main.go to support a contstant serve for any requests inbound for weather
