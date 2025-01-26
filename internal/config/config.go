@@ -7,9 +7,7 @@ import (
 )
 
 type Config struct {
-	APIKey    string
-	Latitude  string
-	Longitude string
+	APIKey string
 }
 
 // LoadConfig starts with a captial letter here so we are able to import it from other files
@@ -30,11 +28,9 @@ func LoadConfig() (*Config, error) {
 
 	// Read environment variables
 	apiKey := os.Getenv("API_KEY")
-	latitude := os.Getenv("LAT")
-	longitude := os.Getenv("LON")
 
 	// Validate required variables
-	if apiKey == "" || latitude == "" || longitude == "" {
+	if apiKey == "" {
 		return nil, fmt.Errorf("missing required environment variables")
 	}
 	// Use the & operator to get the memory address of Config and return it as a pointer.
@@ -44,8 +40,6 @@ func LoadConfig() (*Config, error) {
 	// 3. Returning a pointer avoids copying the entire struct, improving efficiency,
 	//    especially for larger structs or shared resources like configurations.
 	return &Config{
-		APIKey:    apiKey,
-		Latitude:  latitude,
-		Longitude: longitude,
+		APIKey: apiKey,
 	}, nil
 }

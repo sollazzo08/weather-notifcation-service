@@ -8,9 +8,7 @@ import (
 
 // WeatherService is a struct that encapsulates the configuration for interacting with OpenWeatherAPI.
 type WeatherService struct {
-	APIKey    string
-	Latitude  string
-	Longitude string
+	APIKey string
 }
 
 // NewWeatherService creates and initializes a new WeatherService instance.
@@ -24,23 +22,20 @@ type WeatherService struct {
 //
 // Returns:
 // - *WeatherService: A pointer to the initialized WeatherService instance.
-func NewWeatherService(apiKey, latitude, longitude string) *WeatherService {
+func NewWeatherService(apiKey string) *WeatherService {
 	return &WeatherService{
-		APIKey:    apiKey,
-		Latitude:  latitude,
-		Longitude: longitude,
+		APIKey: apiKey,
 	}
 }
 
-func (s *WeatherService) GetWeather(lat, lon string) (*WeatherResponse, error) {
-	url := fmt.Sprintf(
-		"https://api.openweathermap.org/data/3.0/onecall?lat=%s&lon=%s&units=imperial&exclude=minutely&appid=%s",
-		s.Latitude, s.Longitude, s.APIKey,
-	)
+func (s *WeatherService) GetWeatherByZip(zip string) (*WeatherResponse, error) {
+	// This API is depreciated, need to look into a new way for retrieving weather by city name
+	url := "https://api.openweathermap.org/data/2.5/weather?q=" + zip + ",US" +
+		"&units=imperial&appid=" + s.APIKey
 
+	fmt.Println(url)
 	resp, err := http.Get(url)
 
-	fmt.Println(resp)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch weather data: %w", err)
 	}

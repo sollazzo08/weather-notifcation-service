@@ -13,17 +13,17 @@ func WeatherHandler(service *weather.WeatherService) http.HandlerFunc {
 
 		query := r.URL.Query()
 
-		lat := query.Get("lat")
-		lon := query.Get("lon")
+		zip := query.Get("zip")
 
-		fmt.Println(lat, lon, "test")
-		weatherData, err := service.GetWeather(lat, lon string)
+		weatherData, err := service.GetWeatherByZip(zip)
 		if err != nil {
 			http.Error(w, "Failed to fetch weather data", http.StatusInternalServerError)
 			return
 		}
 
 		w.Header().Set("Content-Type", "application/json")
+
+		fmt.Println(weatherData)
 		json.NewEncoder(w).Encode(weatherData)
 	}
 }

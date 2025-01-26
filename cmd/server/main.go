@@ -20,7 +20,7 @@ func main() {
 		return
 	}
 
-	weatherService := weather.NewWeatherService(cfg.APIKey, cfg.Longitude, cfg.Latitude)
+	weatherService := weather.NewWeatherService(cfg.APIKey)
 
 	mux.HandleFunc("/api/v1/weather", handlers.WeatherHandler(weatherService))
 
