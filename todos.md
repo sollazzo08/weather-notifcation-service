@@ -1,9 +1,7 @@
 # TODO List for Weather Notification Service
 
-## Handlers
-- [ ] Re-write the weather handler to support consuming queries parameters
-
-## Error Handling
+- [X] Re-write the weather handler to support consuming queries parameters
 - [ ] Implement more robust error-handling
-## Logging
 - [ ] Implement more robust logging throughout the application.
+- [ ] Add Docker-Compose
+- [ ] Research Rate-Limiting
