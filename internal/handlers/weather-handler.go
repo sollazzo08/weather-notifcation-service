@@ -2,10 +2,10 @@ package handlers
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
-	"net/http"
-
 	"github.com/mike/weather-notification-service/internal/weather"
+	"net/http"
 )
 
 func WeatherHandler(service *weather.WeatherService) http.HandlerFunc {
@@ -17,8 +17,14 @@ func WeatherHandler(service *weather.WeatherService) http.HandlerFunc {
 
 		weatherData, err := service.GetWeatherByZip(zip)
 		if err != nil {
-			http.Error(w, "Failed to fetch weather data", http.StatusInternalServerError)
-			return
+			// Check if the error is an HTTPError
+			var httpErr *weather.HTTPError
+			if errors.As(err, &httpErr) {
+				// Write custom error details in the response body
+				w.WriteHeader(httpErr.StatusCode)
+				fmt.Fprintf(w, "%s\n", httpErr.Error())
+				return
+			}
 		}
 
 		w.Header().Set("Content-Type", "application/json")

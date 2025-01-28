@@ -6,6 +6,17 @@ import (
 	"net/http"
 )
 
+// Custom error interface for additional context on errors
+type HTTPError struct {
+	URL        string
+	StatusCode int
+	Status     string
+}
+
+func (e *HTTPError) Error() string {
+	return fmt.Sprintf("HTTP error: %d %s for URL: %s", e.StatusCode, e.Status, e.URL)
+}
+
 // WeatherService is a struct that encapsulates the configuration for interacting with OpenWeatherAPI.
 type WeatherService struct {
 	APIKey string
@@ -33,16 +44,26 @@ func (s *WeatherService) GetWeatherByZip(zip string) (*WeatherResponse, error) {
 	url := "https://api.openweathermap.org/data/2.5/weather?q=" + zip + ",US" +
 		"&units=imperial&appid=" + s.APIKey
 
-	fmt.Println(url)
 	resp, err := http.Get(url)
 
 	if err != nil {
+		// Handle network or request-level errors
+		// w% preserves the origianl error
 		return nil, fmt.Errorf("failed to fetch weather data: %w", err)
 	}
+	//Close response body to avoid resource leaks
 	defer resp.Body.Close()
 
+	// If no errros were found at the request level we check for HTTP errors based on status code. At this point the server is processing the above request and should output a status code
 	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("non-OK HTTP response: %d", resp.StatusCode)
+		fmt.Println("Error occured at request level")
+		// Return Custom error
+
+		return nil, &HTTPError{
+			URL:        url,
+			StatusCode: resp.StatusCode,
+			Status:     http.StatusText(resp.StatusCode),
+		}
 	}
 
 	var weather WeatherResponse
