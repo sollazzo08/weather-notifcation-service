@@ -34,5 +34,5 @@ jobs:
             export PATH=/usr/local/go/bin:\$PATH &&
             cd ${{ secrets.PI_TARGET_PATH }} &&
             make build &&
-            pm2 restart weather-service || pm2 start ./weather-notifcation-service --name weather-service
+            pm2 restart weather-service || pm2 start ./weather-notification-service --name weather-service
           "
